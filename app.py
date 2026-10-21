@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from http import HTTPStatus
 from os import getenv
+import logging
 
 from flask import Flask, jsonify, render_template, request
 
@@ -10,6 +11,7 @@ from database import Database, DatabaseError
 
 def create_app(test_config: dict | None = None) -> Flask:
     app = Flask(__name__)
+    app.logger.setLevel(logging.INFO)
 
     if test_config:
         app.config.update(test_config)
@@ -51,8 +53,9 @@ def create_app(test_config: dict | None = None) -> Flask:
         try:
             db.add_to_cart(product_id=product_id, quantity=quantity)
             return jsonify(db.get_cart()), HTTPStatus.CREATED
-        except DatabaseError as exc:
-            return jsonify({"error": str(exc)}), HTTPStatus.BAD_REQUEST
+        except DatabaseError:
+            app.logger.exception("Cart add operation failed")
+            return jsonify({"error": "Unable to add item to cart."}), HTTPStatus.BAD_REQUEST
 
     @app.patch("/api/cart/<int:product_id>")
     def update_cart_item(product_id: int):
@@ -64,16 +67,18 @@ def create_app(test_config: dict | None = None) -> Flask:
         try:
             db.update_cart_item(product_id=product_id, quantity=quantity)
             return jsonify(db.get_cart())
-        except DatabaseError as exc:
-            return jsonify({"error": str(exc)}), HTTPStatus.BAD_REQUEST
+        except DatabaseError:
+            app.logger.exception("Cart update operation failed")
+            return jsonify({"error": "Unable to update cart item."}), HTTPStatus.BAD_REQUEST
 
     @app.delete("/api/cart/<int:product_id>")
     def remove_from_cart(product_id: int):
         try:
             db.remove_cart_item(product_id)
             return jsonify(db.get_cart())
-        except DatabaseError as exc:
-            return jsonify({"error": str(exc)}), HTTPStatus.BAD_REQUEST
+        except DatabaseError:
+            app.logger.exception("Cart remove operation failed")
+            return jsonify({"error": "Unable to remove cart item."}), HTTPStatus.BAD_REQUEST
 
     @app.post("/api/checkout")
     def checkout():
@@ -97,19 +102,22 @@ def create_app(test_config: dict | None = None) -> Flask:
                 notes=notes,
             )
             return jsonify(order), HTTPStatus.CREATED
-        except DatabaseError as exc:
-            return jsonify({"error": str(exc)}), HTTPStatus.BAD_REQUEST
+        except DatabaseError:
+            app.logger.exception("Checkout failed")
+            return jsonify({"error": "Unable to complete checkout."}), HTTPStatus.BAD_REQUEST
 
     @app.get("/api/orders")
     def orders():
         try:
             return jsonify({"orders": db.get_orders()})
-        except DatabaseError as exc:
-            return jsonify({"error": str(exc)}), HTTPStatus.INTERNAL_SERVER_ERROR
+        except DatabaseError:
+            app.logger.exception("Order retrieval failed")
+            return jsonify({"error": "Unable to load orders."}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     @app.errorhandler(Exception)
     def handle_unexpected_error(exc: Exception):
-        return jsonify({"error": f"Unexpected error: {exc}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+        app.logger.exception("Unexpected application error")
+        return jsonify({"error": "Unexpected server error."}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     return app
 
@@ -118,4 +126,4 @@ app = create_app()
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=getenv("FLASK_DEBUG", "").lower() in {"1", "true", "yes"})
