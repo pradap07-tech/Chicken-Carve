@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chicken Carve | Food Ordering</title>
+    <link rel="preconnect" href="https://loremflickr.com" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="background-gradient"></div>
+    <main class="layout">
+      <header class="glass panel header">
+        <div>
+          <h1>Chicken Carve</h1>
+          <p>Order premium meals in seconds.</p>
+        </div>
+        <button id="cart-toggle" class="btn">Cart <span id="cart-count">0</span></button>
+      </header>
+
+      <section class="glass panel controls">
+        <input id="search-input" type="search" placeholder="Search meals..." />
+        <select id="sort-select">
+          <option value="name_asc">Name A-Z</option>
+          <option value="name_desc">Name Z-A</option>
+          <option value="price_asc">Price Low-High</option>
+          <option value="price_desc">Price High-Low</option>
+          <option value="category_asc">Category</option>
+        </select>
+      </section>
+
+      <section id="category-filters" class="category-row"></section>
+
+      <section class="content-grid">
+        <section class="products-section">
+          <div id="products-grid" class="products-grid"></div>
+        </section>
+
+        <aside id="cart-panel" class="glass panel cart-panel">
+          <h2>Your Cart</h2>
+          <div id="cart-items" class="cart-items"></div>
+          <div class="cart-summary">
+            <p>Subtotal: <span id="subtotal">$0.00</span></p>
+            <p>Delivery: <span id="delivery-fee">$0.00</span></p>
+            <p class="total">Total: <span id="total">$0.00</span></p>
+          </div>
+          <form id="checkout-form" class="checkout-form">
+            <input name="customer_name" placeholder="Full name" required />
+            <input name="phone" placeholder="Phone" required />
+            <textarea name="address" placeholder="Delivery address" required></textarea>
+            <textarea name="notes" placeholder="Notes (optional)"></textarea>
+            <button type="submit" class="btn primary">Checkout</button>
+          </form>
+          <p id="checkout-message" class="status"></p>
+        </aside>
+      </section>
+
+      <section class="glass panel orders-panel">
+        <h2>Previous Orders</h2>
+        <div id="orders-list" class="orders-list"></div>
+      </section>
+    </main>
+
+    <template id="product-card-template">
+      <article class="glass product-card">
+        <div class="image-wrap">
+          <img class="food-image" src="/static/fallback-food.svg" alt="Food image" loading="lazy" decoding="async" />
+        </div>
+        <div class="product-body">
+          <h3 class="product-name"></h3>
+          <p class="product-description"></p>
+          <p class="product-meta"></p>
+          <div class="product-footer">
+            <span class="product-price"></span>
+            <button class="btn add-btn">Add</button>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script type="module" src="/static/app.js"></script>
+  </body>
+</html>
