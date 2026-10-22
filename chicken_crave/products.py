@@ -1,0 +1,68 @@
+"""Static product catalog for Chicken Crave."""
+
+DEFAULT_PRODUCTS = [
+    {
+        "name": "Smoky Grilled Chicken",
+        "category": "Mains",
+        "price": 11.99,
+        "image_url": "https://images.pexels.com/photos/616354/pexels-photo-616354.jpeg",
+        "fallback_image": "smoky_grilled_chicken.png",
+        "description": "Flame grilled chicken with smoky herb glaze.",
+    },
+    {
+        "name": "Crispy Chicken Burger",
+        "category": "Burgers",
+        "price": 9.49,
+        "image_url": "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg",
+        "fallback_image": "crispy_chicken_burger.png",
+        "description": "Crunchy fried chicken burger with creamy slaw.",
+    },
+    {
+        "name": "Spicy Chicken Wrap",
+        "category": "Wraps",
+        "price": 8.75,
+        "image_url": "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg",
+        "fallback_image": "spicy_chicken_wrap.png",
+        "description": "Tender chicken wrap with fiery house sauce.",
+    },
+    {
+        "name": "Peri Peri Wings",
+        "category": "Starters",
+        "price": 7.95,
+        "image_url": "https://images.pexels.com/photos/410648/pexels-photo-410648.jpeg",
+        "fallback_image": "peri_peri_wings.png",
+        "description": "Juicy wings tossed in peri peri glaze.",
+    },
+    {
+        "name": "Loaded Chicken Fries",
+        "category": "Sides",
+        "price": 6.50,
+        "image_url": "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg",
+        "fallback_image": "loaded_chicken_fries.png",
+        "description": "Golden fries topped with pulled chicken and cheese.",
+    },
+    {
+        "name": "Garden Chicken Salad",
+        "category": "Salads",
+        "price": 8.25,
+        "image_url": "https://images.pexels.com/photos/5938/food-salad-healthy-lunch.jpg",
+        "fallback_image": "garden_chicken_salad.png",
+        "description": "Fresh greens with grilled chicken and citrus dressing.",
+    },
+    {
+        "name": "Honey Garlic Bites",
+        "category": "Starters",
+        "price": 7.25,
+        "image_url": "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg",
+        "fallback_image": "honey_garlic_bites.png",
+        "description": "Crisp chicken bites in sticky honey garlic sauce.",
+    },
+    {
+        "name": "Lemon Mint Cooler",
+        "category": "Drinks",
+        "price": 3.75,
+        "image_url": "https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg",
+        "fallback_image": "lemon_mint_cooler.png",
+        "description": "Icy citrus cooler with mint and soda fizz.",
+    },
+]
